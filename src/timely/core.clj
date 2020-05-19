@@ -1,6 +1,6 @@
 (ns timely.core
   (:require [io.pedestal.http.route :as route]
-            [timely.db.config :as db]
+            [timely.db.wrapper :as db]
             [datomic.client.api :as d]
             [timely.db.schema :as db-schema]))
 
@@ -14,6 +14,7 @@
 
 (def db-conn (db/connect (:database system-map)))
 (d/transact db-conn {:tx-data db-schema/user-schema})
+(d/transact db-conn {:tx-data db-schema/work-period-schema})
 
 (defn answer-hello [request]
   {:status 200
