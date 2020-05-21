@@ -11,3 +11,15 @@
   (d/transact conn {:tx-data [{:user/name name
                                :user/password password
                                :user/email email}]}))
+
+(defn working-period-started?
+  "Checks if a working period is going on for a given user"
+  [db user])
+
+(defn start-working-period
+  "Creates a started working period for the given user"
+  [conn {:keys [user timestamp]}])
+
+(defn end-working-period
+  "Ends a given working period for the given user"
+  [conn {:keys [user working-period timestamp]}])
