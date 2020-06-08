@@ -1,5 +1,6 @@
 (ns timely.db.schema)
 
+
 (def user-schema [{:db/ident :user/uuid
                    :db/valueType :db.type/uuid
                    :db/cardinality :db.cardinality/one
@@ -7,6 +8,7 @@
 
                   {:db/ident :user/name
                    :db/valueType :db.type/string
+                   :db/unique :db.unique/value
                    :db/cardinality :db.cardinality/one
                    :db/doc "Name of the user"}
 
@@ -17,6 +19,7 @@
 
                   {:db/ident :user/email
                    :db/valueType :db.type/string
+                   :db/unique :db.unique/value
                    :db/cardinality :db.cardinality/one
                    :db/doc "Email of the user"}])
 

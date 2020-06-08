@@ -9,6 +9,6 @@
                  [io.pedestal/pedestal.route "0.5.7"]
                  [io.pedestal/pedestal.log "0.5.7"]
                  [com.datomic/client-pro "0.9.41"]
-                 [com.datomic/datomic "0.8.3335"]]
+                 [com.datomic/datomic-pro "0.9.6045"]]
   :repl-options {:init-ns timely.core}
   :user {:plugins [[venantius/ultra "0.6.0"]]})
