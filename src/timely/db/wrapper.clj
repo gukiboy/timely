@@ -1,7 +1,12 @@
 (ns timely.db.wrapper
   (:require [datomic.api :as d]
+            [java-time :as jtime]
             [timely.db.schema :as db-schema]))
 
+(defn- is-future?
+  [work-time]
+  (cond (jtime/after? work-time (jtime/instant))
+        (throw  (Exception. "You cannot start or end a working period in the future"))))
 
 (defn connect
   "Connects to database. Returns the connection"
@@ -57,6 +62,7 @@
 (defn start-working-period!
   "Creates a started working period for the given user"
   [conn {:keys [user time]}]
+  (is-future? time)
   (d/transact conn [{:period/start time
                      :period/user user}]))
 
@@ -69,16 +75,10 @@
          [?e :period/start ?date]
          (not [?e :period/end])] (d/db conn) user))
 
-(defn get-last-working-period
-  [conn user]
-  (let [result (get-unfinished-working-periods conn user)]
-    (cond #(> 1 (count result))
-          (throw (Exception. "There are more than one unfinished working periods!")))
-    (apply max-key #(.getTime (second %)) result)))
-
 (defn end-working-period!
   "Ends a given working period for the given user"
   [conn {:keys [user working-period time]}]
+  (is-future? time)
   (d/transact conn [{:period/user user
                      :period/uuid working-period
                      :period/end time}]))
